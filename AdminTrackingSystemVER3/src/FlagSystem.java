@@ -84,12 +84,8 @@ public class FlagSystem {
         System.out.print("Please enter No. to be flag Normal: ");
         choice = InputValid.checkRange(1,Customer.custs.size());
 
-        for(int i = 0; i < Customer.custs.size(); i++){
-            if(Customer.custs.get(i).getId() == choice){
-                /** Mark the Customer status to normal */
-                Customer.custs.get(choice-1).setStatus("Normal");
-            }
-        }
+        Customer.custs.get(choice-1).setStatus("Normal");
+
         Customer.Serialize();
     }
 
@@ -101,12 +97,8 @@ public class FlagSystem {
         System.out.print("Please enter No. to be flag Normal: ");
         choice = InputValid.checkRange(1,Shop.shops.size());
 
-        for(int i = 0; i < Shop.shops.size(); i++){
-            if(Shop.shops.get(i).getId() == choice){
-                /** Mark the shop's status to normal */
-                Shop.shops.get(choice-1).setStatus("Normal");
-            }
-        }
+        Shop.shops.get(choice-1).setStatus("Normal");
+
         Shop.Serialize();
     }
 }
