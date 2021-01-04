@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Visit implements Serializable {
     private static final long serialVersionUID = 6543585098267757690L;
     private static int count = 0;
-
     public static ArrayList<Visit> visits = new ArrayList<Visit>();
 
     private int id;
@@ -16,9 +15,10 @@ public class Visit implements Serializable {
     private int shopID;
     private final static String FILE_PATH = Initializer.CUR_PATH + "\\Visits.bin";
 
+
     private static void Serialize() {
         try {
-            FileOutputStream fos = new FileOutputStream("Visits.bin");
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(visits);
             oos.close();
@@ -33,7 +33,8 @@ public class Visit implements Serializable {
     public static void Deserialize() {
         visits.clear();
         try {
-            FileInputStream fis = new FileInputStream("Visits.bin");
+            System.out.println(FILE_PATH);
+            FileInputStream fis = new FileInputStream(FILE_PATH);
             ObjectInputStream ois = new ObjectInputStream(fis);
             visits = (ArrayList) ois.readObject();
             count = visits.size();
@@ -47,7 +48,6 @@ public class Visit implements Serializable {
             e.printStackTrace();
         }
     }
-
 
     public Visit() {}
 
@@ -69,8 +69,6 @@ public class Visit implements Serializable {
         Serialize();
     }
 
-
-
     public LocalDateTime getDt() {
         return dt;
     }
@@ -81,7 +79,7 @@ public class Visit implements Serializable {
     }
 
     public String getTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("k:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("kk:mm:ss");
         return dtf.format(this.dt);
     }
 

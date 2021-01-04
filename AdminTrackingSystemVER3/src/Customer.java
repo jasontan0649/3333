@@ -12,10 +12,11 @@ public class Customer implements Serializable, Role {
     private String name;
     private String phone;
     private String status;
+    private final static String FILE_PATH = Initializer.CUR_PATH + "\\Customers.bin";
 
     public static void Serialize() {
         try {
-            FileOutputStream fos = new FileOutputStream("Customers.bin");
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(custs);
             oos.close();
@@ -27,11 +28,10 @@ public class Customer implements Serializable, Role {
         }
     }
 
-
     public static void Deserialize() {
         custs.clear();
         try {
-            FileInputStream fis = new FileInputStream("Customers.bin");
+            FileInputStream fis = new FileInputStream(FILE_PATH);
             ObjectInputStream ois = new ObjectInputStream(fis);
             custs = (ArrayList) ois.readObject();
             count = custs.size();

@@ -15,17 +15,16 @@ public class Initializer {
         Path p1 = Paths.get(System.getProperty("user.dir")).getParent();
         return p1.toString();
     }
+
     public static void Initialize(){
-        Admin.Deserialize();
         Customer.Deserialize();
         Shop.Deserialize();
         Visit.Deserialize();
+        Admin.Deserialize();
 
         if (Admin.adminArrayList.isEmpty())
             preAdmin();
 
-        if(Visit.visits.isEmpty())
-            preVisit();
     }
 
     public static void preAdmin(){
@@ -36,7 +35,6 @@ public class Initializer {
 
     public static void preVisit() {
         Visit.visits.clear();
-
         LocalDateTime[] randomDTs = timeGene();
         final Random random = new Random();
         int CustAmt = Customer.custs.size();
@@ -47,6 +45,15 @@ public class Initializer {
             Shop randomShop = Shop.shops.get(random.nextInt(ShopAmt));
             new Visit(randomDTs[i], randomCust.getId(), randomShop.getId());
         }
+
+        for (Customer c : Customer.custs)
+            c.setStatus("Normal");
+        Customer.Serialize();
+
+        for (Shop s : Shop.shops)
+            s.setStatus("Normal");
+        Shop.Serialize();
+
     }
 
     public static LocalDateTime[] timeGene() {
@@ -59,7 +66,7 @@ public class Initializer {
         long[] diffSec = new long[30];
         /** Current DateTime */
         LocalDateTime dt = LocalDateTime.now();
-        /** ZoneId.systemdefault() = take current GMT convert to zoneID */
+        /** ZoneId.Systemdefault() = take current GMT convert to zoneID */
         /**toEpochMilli() take the zoneID convert to epoch Milli calculation */
         long curTime = dt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
@@ -68,11 +75,12 @@ public class Initializer {
         Arrays.sort(diffSec);
 
         for (int i = 0; i < 30; i++) {
-            /** To get Random time (either pm /am/the last day) */
+            /** To get Randam time (either pm /am/the last day) */
             long newDT = curTime - diffSec[29-i];
-            /** Instant.ofEpochMilli(newDT) - Get instance of Instant using Millisecond form the epoch*/
+            /**Instant.ofEpochMilli(newDT) - Get instance of Instant using Millisecond form the epoch*/
             randomDTs[i] = LocalDateTime.ofInstant(Instant.ofEpochMilli(newDT), ZoneId.systemDefault());
         }
+        /** Sort DT array. */
         Arrays.sort(randomDTs);
         /** Return a LocalDateTime array with random DT */
         return randomDTs;

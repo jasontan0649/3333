@@ -92,22 +92,12 @@ public class Menu {
     }
 
     public static void viewMasterHistory() {
-        Scanner input = new Scanner(System.in);
-
-        CustReport custReport = new CustReport();
-        custReport.display();
-        System.out.println("Please select Customer: ");
-
-        int choice = InputValid.checkRange(1,Customer.custs.size());
-
-        Customer SelectedMaster = Customer.custs.get(choice-1);
-        CustReport selectedReport = new CustReport(SelectedMaster);
-        selectedReport.display();
-
+        VisitReport visitReport = new VisitReport();
+        visitReport.display();
         System.out.println("Export into csv file? Y/N");
         String ch = InputValid.checkValidChar();
         if (ch.equals("Y"))
-            custReport.exportCSV();
+            visitReport.exportCSV();
     }
 
     public static void viewCustStatus() {

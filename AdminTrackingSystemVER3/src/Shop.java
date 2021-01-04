@@ -13,6 +13,7 @@ public class Shop implements Serializable, Role{
     private String phone;
     private String status;
     private String manager;
+    private final static String FILE_PATH = Initializer.CUR_PATH + "\\Shops.bin";
 
     public Shop(String name, String password, String phone, String status, String manager) {
         this.id = ++count;
@@ -26,7 +27,7 @@ public class Shop implements Serializable, Role{
 
     public static void Serialize() {
         try {
-            FileOutputStream fos = new FileOutputStream("Shops.bin");
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(shops);
             oos.close();
@@ -41,7 +42,7 @@ public class Shop implements Serializable, Role{
     public static void Deserialize() {
         shops.clear();
         try {
-            FileInputStream fis = new FileInputStream("Shops.bin");
+            FileInputStream fis = new FileInputStream(FILE_PATH);
             ObjectInputStream ois = new ObjectInputStream(fis);
             shops = (ArrayList) ois.readObject();
             count = shops.size();

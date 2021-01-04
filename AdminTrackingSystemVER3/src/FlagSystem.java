@@ -7,24 +7,34 @@ import java.util.concurrent.Callable;
 public class FlagSystem {
     public static void flagCaseClose() {
 
-        VisitReport visitReport = new VisitReport();
-        visitReport.display();
+        new CustReport().display();
 
         while (true) {
             System.out.println("Choose from visit history to be flagged:");
             System.out.println("(Please input one by one && input -1 to stop)");
-            int choice = InputValid.checkRange(-1, Visit.visits.size());
-            if (choice == -1)
+            int custID = InputValid.checkRange(-1, Customer.custs.size());
+            if (custID == -1)
                 return;
             else
-                flagCaseClose(choice);
+                flagCaseGetRecord(custID);
         }
 
     }
 
+    public static void flagCaseGetRecord(int custID) {
+        for (int i = 0; i < Visit.visits.size(); i++)
+            if (custID == Visit.visits.get(i).getCustID())
+                flagCaseClose(i);
+
+
+        Customer.Serialize();
+        Shop.Serialize();
+        System.out.println("Flag successfully.\n");
+    }
+
     public static void flagCaseClose(int choice) {
 
-        Visit selectedCase = Visit.visits.get(choice - 1);
+        Visit selectedCase = Visit.visits.get(choice);
 
         int shopID = selectedCase.getShopID();
         int custID = selectedCase.getCustID();
@@ -52,10 +62,6 @@ public class FlagSystem {
                     Customer.custs.get(VisitCustID - 1).setStatus("Close");
             }
         }
-        Customer.Serialize();
-        Shop.Serialize();
-
-        System.out.println("Flag successfully.\n");
     }
 
 
